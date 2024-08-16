@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GitHub讨论米游社表情包
 // @namespace    https://dave-12138.cn/Tampermonkey
-// @version      0.1.2
+// @version      0.2.0
 // @description  在github使用米游社表情包
 // @author       Dave_12138
 // @match        https://github.com/*/*/discussions/*
@@ -25,6 +25,19 @@
     border-radius: 2rem;
     padding: .5rem;
 
+    .a-img {
+        background-size: contain;
+
+        &::after {
+            content: "";
+            pointer-events: none;
+            display: block;
+            width: 100%;
+            padding-bottom: 100%;
+
+        }
+    }
+
     >div {
         &:first-child {
             display: flex;
@@ -35,7 +48,7 @@
                 flex: 1 0 2.5rem;
                 width: 2.5rem;
 
-                &:not([src]) {
+                &:not(.loaded) {
                     max-height: 2.5rem;
                 }
             }
@@ -59,7 +72,7 @@
                 flex: 0 0 3rem;
                 width: 3rem;
 
-                &:not([src]) {
+                &:not(.loaded) {
                     max-height: 3rem;
                 }
             }
@@ -156,11 +169,12 @@
     // 获取页面靠底部的输入框，创建新讨论是discussion_body，回复讨论是new_comment_field
     const input = document.querySelector('#new_comment_field,#discussion_body');
     // 表情分类栏
-    const tabs = h('div', 'emot-tabs', null, emotList.map(e => h('img', null, { ori: e.icon, g: e.id, alt: e.name })));
+    // 总有人把分类的图标拖到输入框里，所以不能用img
+    const tabs = h('div', 'emot-tabs', null, emotList.map(e => h('div', "a-img", { ori: e.icon, g: e.id, alt: e.name }, [h('div')])));
     // 表情列表 的列表
     const iconsDiv = h('div', 'emot-icons', null, emotList.map(
         e => h('div', null, { g: e.id }, e.list.map(
-            im => h('img', null, { pid: im.id, ori: im.icon, alt: im.name })
+            im => h('div', "a-img", { pid: im.id, ori: im.icon, alt: im.name })
         ))
     ));
     // 点击表情分类图标时把对应表情列表放出来
@@ -192,15 +206,25 @@
             }
         }
     });
+    /**
+     * 
+     * @param {HTMLDivElement|HTMLImageElement} el 
+     */
     async function loadImg(el) {
         // 直接设置src为外链图片会被github拦截
-        el.src = URL.createObjectURL(await GM_fetch(el.getAttribute('ori')).then(x => x.blob()));
+        const src = URL.createObjectURL(await GM_fetch(el.getAttribute('ori')).then(x => x.blob()));
+        if (el.tagName === "IMG") {
+            el.src = src;
+        } else {
+            el.style.backgroundImage = `url(${src})`;
+        }
+        el.classList.add('loaded');
         observer.unobserve(el);
     }
-    iconsDiv.querySelectorAll('img').forEach(x => observer.observe(x));
-    tabs.querySelectorAll('img').forEach(x => observer.observe(x));
+    iconsDiv.querySelectorAll('[ori]').forEach(x => observer.observe(x));
+    tabs.querySelectorAll('[ori]').forEach(x => observer.observe(x));
     // /懒加载
-    
+
     // 添加到dom中
     const panel = h('div', 'miyoushe-emots', null, [
         tabs,
