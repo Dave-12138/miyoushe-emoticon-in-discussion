@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GitHub讨论米游社表情包
 // @namespace    https://dave-12138.cn/Tampermonkey
-// @version      0.2.0
+// @version      0.2.1
 // @description  在github使用米游社表情包
 // @author       Dave_12138
 // @match        https://github.com/*/*/discussions/*
@@ -192,7 +192,7 @@
         /**@type {HTMLImageElement} */
         const el = e.target;
         if (el.getAttribute('pid')) {
-            inputEmot(input, `<img src="${el.getAttribute('ori')}" alt="${el.alt}" width="75" >`);
+            inputEmot(input, `<img src="${el.getAttribute('ori')}" alt="${el.getAttribute('alt')}" width="75" >`);
             // inputEmot(input, `![${el.alt}](${el.getAttribute('ori')})`);
         }
     })
