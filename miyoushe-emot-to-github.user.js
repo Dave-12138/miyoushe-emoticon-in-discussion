@@ -19,66 +19,6 @@
 
 (async function () {
     'use strict';
-    GM_addStyle(`
-.miyoushe-emots {
-    border: 3px #CCC dashed;
-    border-radius: 2rem;
-    padding: .5rem;
-
-    .a-img {
-        background-size: contain;
-
-        &::after {
-            content: "";
-            pointer-events: none;
-            display: block;
-            width: 100%;
-            padding-bottom: 100%;
-
-        }
-    }
-
-    >div {
-        &:first-child {
-            display: flex;
-            overflow-x: auto;
-            flex-wrap: nowrap;
-
-            >* {
-                flex: 1 0 2.5rem;
-                width: 2.5rem;
-
-                &:not(.loaded) {
-                    max-height: 2.5rem;
-                }
-            }
-        }
-
-        &:last-child>div {
-            display: flex;
-            max-height: 8rem;
-            overflow-y: auto;
-            flex-wrap: wrap;
-            padding-top: .25rem;
-            border-top: 3px #CCC dashed;
-            margin-top: .25rem;
-
-
-            &:not(.show) {
-                display: none;
-            }
-
-            >* {
-                flex: 0 0 3rem;
-                width: 3rem;
-
-                &:not(.loaded) {
-                    max-height: 3rem;
-                }
-            }
-        }
-    }
-}`);
     /**
      * 在文本框中光标位置插入字符串，如果有选中则覆盖
      * @param {HTMLTextAreaElement} element 
@@ -170,7 +110,7 @@
     const input = document.querySelector('#new_comment_field,#discussion_body');
     // 表情分类栏
     // 总有人把分类的图标拖到输入框里，所以不能用img
-    const tabs = h('div', 'emot-tabs', null, emotList.map(e => h('div', "a-img", { ori: e.icon, g: e.id, alt: e.name }, [h('div')])));
+    const tabs = h('div', 'emot-tabs', null, emotList.map(e => h('div', "a-img", { ori: e.icon, g: e.id, alt: e.name })));
     // 表情列表 的列表
     const iconsDiv = h('div', 'emot-icons', null, emotList.map(
         e => h('div', null, { g: e.id }, e.list.map(
@@ -207,8 +147,7 @@
         }
     });
     /**
-     * 
-     * @param {HTMLDivElement|HTMLImageElement} el 
+     *  @param {HTMLDivElement|HTMLImageElement} el 
      */
     async function loadImg(el) {
         // 直接设置src为外链图片会被github拦截
@@ -223,7 +162,6 @@
     }
     iconsDiv.querySelectorAll('[ori]').forEach(x => observer.observe(x));
     tabs.querySelectorAll('[ori]').forEach(x => observer.observe(x));
-    // /懒加载
 
     // 添加到dom中
     const panel = h('div', 'miyoushe-emots', null, [

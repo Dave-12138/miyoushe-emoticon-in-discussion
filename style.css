@@ -1,0 +1,59 @@
+.miyoushe-emots {
+    border: 3px #CCC dashed;
+    border-radius: 2rem;
+    padding: .5rem;
+
+    .a-img {
+        background-size: contain;
+
+        &::after {
+            content: "";
+            pointer-events: none;
+            display: block;
+            width: 100%;
+            padding-bottom: 100%;
+
+        }
+    }
+
+    >div {
+        &:first-child {
+            display: flex;
+            overflow-x: auto;
+            flex-wrap: nowrap;
+
+            >* {
+                flex: 1 0 2.5rem;
+                width: 2.5rem;
+
+                &:not(.loaded) {
+                    max-height: 2.5rem;
+                }
+            }
+        }
+
+        &:last-child>div {
+            display: flex;
+            max-height: 8rem;
+            overflow-y: auto;
+            flex-wrap: wrap;
+            padding-top: .25rem;
+            border-top: 3px #CCC dashed;
+            margin-top: .25rem;
+
+
+            &:not(.show) {
+                display: none;
+            }
+
+            >* {
+                flex: 0 0 3rem;
+                width: 3rem;
+
+                &:not(.loaded) {
+                    max-height: 3rem;
+                }
+            }
+        }
+    }
+}
