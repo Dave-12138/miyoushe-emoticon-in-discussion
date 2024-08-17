@@ -5,6 +5,8 @@
 
     .a-img {
         background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
 
         &::after {
             content: "";
@@ -12,7 +14,6 @@
             display: block;
             width: 100%;
             padding-bottom: 100%;
-
         }
     }
 
