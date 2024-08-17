@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GitHub讨论米游社表情包
 // @namespace    https://dave-12138.cn/Tampermonkey
-// @version      0.2.1
+// @version      0.2.2
 // @description  在github使用米游社表情包
 // @author       Dave_12138
 // @match        https://github.com/*/*/discussions/*
