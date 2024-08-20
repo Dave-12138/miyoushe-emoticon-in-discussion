@@ -39,21 +39,20 @@
                 url,
                 method: "GET",
                 onload: function (response) {
-                    callback(type ? response.response : response.responseText);
+                    callback(ob.responseType ? response.response : response.responseText);
                 },
                 onerror: callback2
             };
-            if (type) {
+            if (type && type != 'text') {
                 ob.responseType = type;
             }
             GM_xmlhttpRequest(ob);
         }
+        function getFunc(type) {
+            return () => new Promise((res, rej) => req(url, type, res, rej));
+        }
         return new Promise((r, rr) => {
-            r({
-                text: () => new Promise((res, rej) => req(url, null, res, rej)),
-                json: () => new Promise((res, rej) => req(url, 'json', res, rej)),
-                blob: () => new Promise((res, rej) => req(url, 'blob', res, rej)),
-            })
+            r(['text', 'json', 'blob'].reduce((pv, v) => { pv[v] = getFunc(v); return pv; }, {}));
         })
     }
     // 从米游社获取表情列表，获取结果在脚本存储空间缓存一个月
