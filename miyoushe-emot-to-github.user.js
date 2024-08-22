@@ -1,11 +1,13 @@
 // ==UserScript==
-// @name         GitHub讨论米游社表情包
+// @name         GitHub 米游社表情包
 // @namespace    https://dave-12138.cn/Tampermonkey
 // @version      0.2.2
-// @description  在github使用米游社表情包
+// @description  在 GitHub 使用米游社表情包
 // @author       Dave_12138
+// @match        https://github.com/*/*/issues/*
+// @match        https://github.com/*/*/pull/*
 // @match        https://github.com/*/*/discussions/*
-// @icon         https://www.google.com/s2/favicons?sz=64&domain=github.com
+// @icon         https://github.githubassets.com/pinned-octocat.svg
 // @connect      bbs-api-static.miyoushe.com
 // @connect      bbs-static.miyoushe.com
 // @connect      upload-bbs.miyoushe.com
@@ -74,7 +76,7 @@
     }
     const emotList = resp.data.list.filter(x => x.list.length > 0 && x.is_available);
     /**
-     * 创建element
+     * 创建 element
      * @param {String} tag 
      * @param {Array<String>} classes 
      * @param {Object} attr 
@@ -105,7 +107,7 @@
         return el;
     }
 
-    // 获取页面靠底部的输入框，创建新讨论是discussion_body，回复讨论是new_comment_field
+    // 获取页面靠底部的输入框，创建新讨论是 discussion_body，回复讨论是 new_comment_field
     const input = document.querySelector('#new_comment_field,#discussion_body');
     // 表情分类栏
     // 总有人把分类的图标拖到输入框里，所以不能用img
@@ -149,7 +151,7 @@
      *  @param {HTMLDivElement|HTMLImageElement} el 
      */
     async function loadImg(el) {
-        // 直接设置src为外链图片会被github拦截
+        // 直接设置 src 为外链图片会被 GitHub 拦截
         const src = URL.createObjectURL(await GM_fetch(el.getAttribute('ori')).then(x => x.blob()));
         if (el.tagName === "IMG") {
             el.src = src;
@@ -162,7 +164,7 @@
     iconsDiv.querySelectorAll('[ori]').forEach(x => observer.observe(x));
     tabs.querySelectorAll('[ori]').forEach(x => observer.observe(x));
 
-    // 添加到dom中
+    // 添加到 dom 中
     const panel = h('div', 'miyoushe-emots', null, [
         tabs,
         iconsDiv
