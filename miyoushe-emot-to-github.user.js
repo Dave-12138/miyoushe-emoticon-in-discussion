@@ -55,26 +55,8 @@
             r(['text', 'json', 'blob'].reduce((pv, v) => { pv[v] = getFunc(v); return pv; }, {}));
         })
     }
-    // 从米游社获取表情列表，获取结果在脚本存储空间缓存一个月
-    const emotKey = 'miyoushe-emoticon';
-    const emotUpdateTimeKey = 'miyoushe-emoticon-lastfetch';
-    const now = 0 | (Date.now() / 1000);
-    if (GM_getValue(emotKey, null) && now - GM_getValue(emotUpdateTimeKey, '0') > 30 * 24 * 3600) {
-        GM_setValue(emotKey, void 0);
-    }
-    if (!GM_getValue(emotKey, null)) {
-        const miyousheEmoticonApi = 'https://bbs-api-static.miyoushe.com/misc/api/emoticon_set?gids=6';
-        GM_setValue(emotKey, await GM_fetch(miyousheEmoticonApi).then(x => x.text()));
-        GM_setValue(emotUpdateTimeKey, now);
-    }
-
-    const resp = JSON.parse(GM_getValue(emotKey, null));
-    if (!resp) {
-        return;
-    }
-    const emotList = resp.data.list.filter(x => x.list.length > 0 && x.is_available);
     /**
-     * 创建element
+     * 创建 element
      * @param {String} tag 
      * @param {Array<String>} classes 
      * @param {Object} attr 
@@ -104,7 +86,24 @@
         }
         return el;
     }
+    // 从米游社获取表情列表，获取结果在脚本存储空间缓存一个月
+    const emotKey = 'miyoushe-emoticon';
+    const emotUpdateTimeKey = 'miyoushe-emoticon-lastfetch';
+    const now = 0 | (Date.now() / 1000);
+    if (GM_getValue(emotKey, null) && now - GM_getValue(emotUpdateTimeKey, '0') > 30 * 24 * 3600) {
+        GM_setValue(emotKey, void 0);
+    }
+    if (!GM_getValue(emotKey, null)) {
+        const miyousheEmoticonApi = 'https://bbs-api-static.miyoushe.com/misc/api/emoticon_set?gids=6';
+        GM_setValue(emotKey, await GM_fetch(miyousheEmoticonApi).then(x => x.text()));
+        GM_setValue(emotUpdateTimeKey, now);
+    }
 
+    const resp = JSON.parse(GM_getValue(emotKey, null));
+    if (!resp) {
+        return;
+    }
+    const emotList = resp.data.list.filter(x => x.list.length > 0 && x.is_available);
     // 获取页面靠底部的输入框，创建新讨论是discussion_body，回复讨论是new_comment_field
     const input = document.querySelector('#new_comment_field,#discussion_body');
     // 表情分类栏
@@ -167,5 +166,7 @@
         tabs,
         iconsDiv
     ]);
-    input.parentElement.appendChild(panel);
+    if(!document.querySelector('.miyoushe-emots')){
+        input.parentElement.appendChild(panel);
+    }
 })();
