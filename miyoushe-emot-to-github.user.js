@@ -1,10 +1,11 @@
 // ==UserScript==
 // @name         GitHub讨论米游社表情包
 // @namespace    https://dave-12138.cn/Tampermonkey
-// @version      0.2.2
+// @version      0.2.3
 // @description  在github使用米游社表情包
 // @author       Dave_12138
 // @match        https://github.com/*/*/discussions/*
+// @match        https://github.com/*/*/issues/*
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=github.com
 // @connect      bbs-api-static.miyoushe.com
 // @connect      bbs-static.miyoushe.com
@@ -104,8 +105,8 @@
         return;
     }
     const emotList = resp.data.list.filter(x => x.list.length > 0 && x.is_available);
-    // 获取页面靠底部的输入框，创建新讨论是discussion_body，回复讨论是new_comment_field
-    const input = document.querySelector('#new_comment_field,#discussion_body');
+    // 获取页面靠底部的输入框，创建新讨论是 discussion_body ，创建新issue是 issue_body ，回复讨论是 new_comment_field
+    const input = document.querySelector('#new_comment_field,#discussion_body,#issue_body');
     // 表情分类栏
     // 总有人把分类的图标拖到输入框里，所以不能用img
     const tabs = h('div', 'emot-tabs', null, emotList.map(e => h('div', "a-img", { ori: e.icon, g: e.id, alt: e.name })));
