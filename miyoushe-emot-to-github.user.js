@@ -149,7 +149,7 @@
      *  @param {HTMLDivElement|HTMLImageElement} el 
      */
     async function loadImg(el) {
-        // 直接设置src为外链图片会被github拦截
+        // 直接设置 src 为外链图片会被github拦截
         const src = URL.createObjectURL(await GM_fetch(el.getAttribute('ori')).then(x => x.blob()));
         if (el.tagName === "IMG") {
             el.src = src;
