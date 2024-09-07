@@ -6,12 +6,14 @@ import { inputEmot } from './tool';
 import Lazy from './Lazy.vue';
 // 获取页面靠底部的输入框，创建新讨论是 discussion_body ，创建新issue是 issue_body ，回复讨论是 new_comment_field
 const currentInput = ref(document.querySelector("#new_comment_field,#discussion_body,#issue_body"));
+const _this = ref(null);
 // 聚焦到新输入框时，切换输出目标
 useEventListener(document, "focusin", e => {
   const el = e.target;
   if (el instanceof HTMLTextAreaElement && el.name === "comment[body]") {
     currentInput.value = el;
   }
+  document.querySelectorAll(".miyoushe-emots").forEach(e => { if (!e.isSameNode(_this.value)) e.remove(); });
 });
 function onInputEmot(src, name) {
   inputEmot(currentInput.value, `<img src="${src}" alt="${name}" width="75" >`);
@@ -29,7 +31,7 @@ const tabData = computed(() => emotList.value
 </script>
 <template>
   <Teleport :to="currentInput?.parentElement" :disabled="!currentInput || !currentInput.parentElement">
-    <div class="miyoushe-emots">
+    <div class="miyoushe-emots" ref="_this">
       <div class="emot-tabs">
         <Lazy v-for="t in tabs" :class="{ selected: currentTab === t.group }" :key="t.group" :src="t.src"
           @click="currentTab = t.group">

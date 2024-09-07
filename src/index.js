@@ -1,6 +1,5 @@
 import { createApp } from "vue";
 import App from "./App.vue";
-
 createApp(App).mount((div => {
   document.body.appendChild(div);
   div.style.display = "none";
