@@ -1,6 +1,6 @@
 {
     "name": "miyoushe-emot-to-github",
-    "version": "0.3.0",
+    "version": "0.3.1",
     "type": "module",
     "description": "在github使用米游社表情包",
     "private": true,
@@ -21,5 +21,9 @@
     },
     "dependencies": {
         "vue": "^3.5.3"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/Dave-12138/miyoushe-emoticon-in-discussion"
     }
 }

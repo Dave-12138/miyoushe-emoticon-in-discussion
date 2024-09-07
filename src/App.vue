@@ -9,31 +9,37 @@ const currentInput = ref(document.querySelector("#new_comment_field,#discussion_
 // 聚焦到新输入框时，切换输出目标
 useEventListener(document, "focusin", e => {
   const el = e.target;
-  if (el instanceof HTMLTextAreaElement) {
+  if (el instanceof HTMLTextAreaElement && el.name === "comment[body]") {
     currentInput.value = el;
   }
 });
 function onInputEmot(src, name) {
-  inputEmot(currentInput.value, `<img src="${src}" alt="${name}" width="75" >`)
+  inputEmot(currentInput.value, `<img src="${src}" alt="${name}" width="75" >`);
 }
 
 const tabs = computed(() => emotList.value?.map(t => ({ group: t.id, name: t.name, src: t.icon })) ?? [])
 const currentTab = ref(tabs.value[0]?.group ?? "0");
-const tabData = computed(() => emotList.value.map(g => {
-  return {
-    [g.id]: g.list.map(im => ({ id: im.id, src: im.icon, name: im.name }))
-  }
-}).reduce((pv, v) => Object.assign(pv, v), {}));
+const tabData = computed(() => emotList.value
+  .map(g => {
+    return {
+      [g.id]: g.list.map(im => ({ id: im.id, src: im.icon, name: im.name }))
+    }
+  }).reduce((pv, v) => Object.assign(pv, v), {})
+);
 </script>
 <template>
-  <Teleport :to="currentInput.parentElement" :disabled="!currentInput || !currentInput.parentElement">
+  <Teleport :to="currentInput?.parentElement" :disabled="!currentInput || !currentInput.parentElement">
     <div class="miyoushe-emots">
       <div class="emot-tabs">
-        <Lazy v-for="t in tabs" :key="t.group" :title="t.name" :src="t.src" @click=" currentTab = t.group"></Lazy>
+        <Lazy v-for="t in tabs" :class="{ selected: currentTab === t.group }" :key="t.group" :src="t.src"
+          :title="t.name" @click="currentTab = t.group">
+          <div v-if="currentTab === t.group">{{ t.name }}</div>
+        </Lazy>
       </div>
       <div class="emot-icons">
         <div>
           <Lazy v-for="em in tabData[currentTab]" :src="em.src" :title="em.name" @click="onInputEmot(em.src, em.name)">
+            <div>{{ em.name }}</div>
           </Lazy>
         </div>
       </div>
@@ -47,16 +53,18 @@ const tabData = computed(() => emotList.value.map(g => {
   padding: .5rem;
 
   .a-img {
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
+    position: relative;
 
-    &::after {
-      content: "";
-      pointer-events: none;
-      display: block;
+    >div {
+      position: absolute;
+      left: 50%;
+      bottom: 0;
+      transform: translate(-50%, 0);
+      background-color: #57c0a9;
       width: 100%;
-      padding-bottom: 100%;
+      font-size: .6rem;
+      user-select: none;
+      pointer-events: none;
     }
   }
 
@@ -70,15 +78,17 @@ const tabData = computed(() => emotList.value.map(g => {
         flex: 1 0 2.5rem;
         width: 2.5rem;
 
-        &:not(.loaded) {
-          max-height: 2.5rem;
+
+        &.selected {
+          border: 2px dashed #57c0a9;
         }
       }
     }
 
     &:last-child>div {
       display: flex;
-      max-height: 8rem;
+      height: 8rem;
+      resize: vertical;
       overflow-y: auto;
       flex-wrap: wrap;
       padding-top: .25rem;
@@ -86,16 +96,16 @@ const tabData = computed(() => emotList.value.map(g => {
       margin-top: .25rem;
 
 
-      // &:not(.show) {
-      //   display: none;
-      // }
-
       >* {
-        flex: 0 0 3rem;
+        flex: 0 1 12.5%;
         width: 3rem;
 
-        &:not(.loaded) {
-          max-height: 3rem;
+        @media (max-width:992px) {
+          flex: 0 1 19.8%
+        }
+
+        &:not(:hover)>div {
+          display: none;
         }
       }
     }

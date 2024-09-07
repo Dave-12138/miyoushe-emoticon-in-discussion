@@ -23,7 +23,7 @@ export default defineComponent({
     props: {
         src: String,
     },
-    setup(props) {
+    setup(props, { expose }) {
         const url = ref("");
         const loaded = ref(0);
         async function loadme() {
@@ -40,11 +40,29 @@ export default defineComponent({
                 loaded.value = 0;
                 observer.observe(el.value);
             }
-        })
+        });
+        expose();
         return { el, url, loaded };
     }
 });
 </script>
 <template>
-    <div ref="el" class="a-img" :class="{ loaded }" :style="{ backgroundImage: `url(${url})` }"></div>
+    <div ref="el" class="a-img" :class="{ loaded }" :style="{ backgroundImage: `url(${url})` }">
+        <slot></slot>
+    </div>
 </template>
+<style lang="less">
+.a-img {
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+
+    &::after {
+        content: "";
+        pointer-events: none;
+        display: block;
+        width: 100%;
+        padding-bottom: 100%;
+    }
+}
+</style>
