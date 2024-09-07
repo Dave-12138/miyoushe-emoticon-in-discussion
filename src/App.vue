@@ -32,13 +32,13 @@ const tabData = computed(() => emotList.value
     <div class="miyoushe-emots">
       <div class="emot-tabs">
         <Lazy v-for="t in tabs" :class="{ selected: currentTab === t.group }" :key="t.group" :src="t.src"
-          :title="t.name" @click="currentTab = t.group">
+          @click="currentTab = t.group">
           <div v-if="currentTab === t.group">{{ t.name }}</div>
         </Lazy>
       </div>
       <div class="emot-icons">
         <div>
-          <Lazy v-for="em in tabData[currentTab]" :src="em.src" :title="em.name" @click="onInputEmot(em.src, em.name)">
+          <Lazy v-for="em in tabData[currentTab]" :key="em.name" :src="em.src" @click="onInputEmot(em.src, em.name)">
             <div>{{ em.name }}</div>
           </Lazy>
         </div>
