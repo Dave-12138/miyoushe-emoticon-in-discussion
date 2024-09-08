@@ -1,5 +1,5 @@
 import { ref } from "vue";
-import { GM_registerMenuCommand, GM_getValue, GM_setValue, GM_xmlhttpRequest } from '$';
+import { GM_registerMenuCommand, GM_getValue, GM_setValue } from '$';
 import { GM_fetch } from "./tool";
 const emotList = ref();
 const now = 0 | (Date.now() / 1000);

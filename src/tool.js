@@ -1,3 +1,4 @@
+import { GM_xmlhttpRequest } from "$";
 /**
  * 在文本框中光标位置插入字符串，如果有选中则覆盖
  * @param {HTMLTextAreaElement} element 

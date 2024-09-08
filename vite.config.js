@@ -12,9 +12,8 @@ export default defineConfig((config) => {
         userscript: {
           name: "GitHub讨论米游社表情包",
           match: [
-            // 'https://github.com/*/*/discussions/*',
-            // 'https://github.com/*/*/issues/*',
-            "https://github.com/*"
+            "https://github.com/*",
+            "https://github.com",
           ],
           connect: [
             "bbs-api-static.miyoushe.com",

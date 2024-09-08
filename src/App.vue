@@ -10,9 +10,11 @@ const _this = ref(null);
 // 聚焦到新输入框时，切换输出目标
 useEventListener(document, "focusin", e => {
   const el = e.target;
+  // 至少得是个输入框                        排除非 markdown 输入框
   if (el instanceof HTMLTextAreaElement && el.name === "comment[body]") {
     currentInput.value = el;
   }
+  // 解决前进后退时浏览器还原 dom 却不还原 vue app 数据状态的问题——我把旧 dom 杀了不就好了？
   document.querySelectorAll(".miyoushe-emots").forEach(e => { if (!e.isSameNode(_this.value)) e.remove(); });
 });
 function onInputEmot(src, name) {
