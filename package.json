@@ -1,6 +1,6 @@
 {
     "name": "miyoushe-emot-to-github",
-    "version": "0.3.4",
+    "version": "0.3.5",
     "type": "module",
     "description": "在github使用米游社表情包",
     "private": true,

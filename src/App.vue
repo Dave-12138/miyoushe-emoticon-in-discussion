@@ -17,19 +17,24 @@ useEventListener(document, "focusin", e => {
   // 解决前进后退时浏览器还原 dom 却不还原 vue app 数据状态的问题——我把旧 dom 杀了不就好了？
   document.querySelectorAll(".miyoushe-emots").forEach(e => { if (!e.isSameNode(_this.value)) e.remove(); });
 });
-function onInputEmot(src, name) {
+/**
+ * @typedef {{id: number,src: string,name: string}} EmotImg
+ * @typedef {{[x: number]: EmotImg[]}} EmotTabs
+ */
+/**
+ * 
+ * @param {EmotImg} param0 
+ */
+function onInputEmot({ src, name }) {
   inputEmot(currentInput.value, `<img src="${src}" alt="${name}" width="75" >`);
 }
 
 const tabs = computed(() => emotList.value?.map(t => ({ group: t.id, name: t.name, src: t.icon })) ?? [])
 const currentTab = ref(tabs.value[0]?.group ?? "0");
-const tabData = computed(() => emotList.value
-  .map(g => {
-    return {
-      [g.id]: g.list.map(im => ({ id: im.id, src: im.icon, name: im.name }))
-    }
-  }).reduce((pv, v) => Object.assign(pv, v), {})
-);
+/**
+ * @type {import('vue').ComputedRef<EmotTabs>}
+ */
+const tabData = computed(() => emotList.value.reduce((pv, g) => Object.assign(pv, { [g.id]: g.list.filter(v => v.is_available).map(im => ({ id: im.id, src: im.icon, name: im.name })) }), {}));
 </script>
 <template>
   <Teleport :to="currentInput?.parentElement" :disabled="!currentInput || !currentInput.parentElement">
@@ -42,7 +47,7 @@ const tabData = computed(() => emotList.value
       </div>
       <div class="emot-icons">
         <div>
-          <Lazy v-for="em in tabData[currentTab]" :key="em.name" :src="em.src" @click="onInputEmot(em.src, em.name)">
+          <Lazy v-for="em in tabData[currentTab]" :key="em.name" :src="em.src" @click="onInputEmot(em)">
             <div>{{ em.name }}</div>
           </Lazy>
         </div>
