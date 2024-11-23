@@ -28,13 +28,13 @@ export default defineConfig((config) => {
         build: {
           metaFileName: true,
           externalGlobals: {
-            vue: cdn.jsdelivr('Vue', 'dist/vue.global.prod.js'),
+            vue: cdn.zhimg('Vue', 'dist/vue.global.prod.js'),
           },
         }
       })
     ],
     build: {
-      minify: true
+      // minify: true
     }
   }
 })

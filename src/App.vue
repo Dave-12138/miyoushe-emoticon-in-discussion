@@ -14,7 +14,7 @@ useEventListener(document, "focusin", e => {
   if (el instanceof HTMLTextAreaElement && el.name === "comment[body]") {
     currentInput.value = el;
   }
-  // 解决前进后退时浏览器还原 dom 却不还原 vue app 数据状态的问题——我把旧 dom 杀了不就好了？
+  // 解决前进后退时浏览器还原 dom 却不还原 vue app 数据状态的问题：我把旧 dom 杀了不就好了？
   document.querySelectorAll(".miyoushe-emots").forEach(e => { if (!e.isSameNode(_this.value)) e.remove(); });
 });
 /**
