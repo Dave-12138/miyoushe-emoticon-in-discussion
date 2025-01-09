@@ -52,7 +52,7 @@ function readList() {
   /**
    * @type {ApiResp}
    */
-  const resp = JSON.parse(GM_getValue(emotKey, null));
+  const resp = JSON.parse(GM_getValue(emotKey, null) ?? null);
   if (!resp) {
     return fetchList();
   }

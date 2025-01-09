@@ -1,6 +1,6 @@
 {
     "name": "miyoushe-emot-to-github",
-    "version": "0.4.0",
+    "version": "0.4.1",
     "type": "module",
     "description": "在github使用米游社表情包",
     "private": true,
@@ -9,7 +9,7 @@
     },
     "scripts": {
         "build": "vite build",
-        "push": "run-p build && \"./.vscode/to-webroot.bat\""
+        "push": "vite build && \"./.vscode/to-webroot.bat\""
     },
     "devDependencies": {
         "@vitejs/plugin-vue": "^5.1.3",
