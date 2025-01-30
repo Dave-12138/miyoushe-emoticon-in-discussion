@@ -10,8 +10,11 @@ const _this = ref(null);
 // 聚焦到新输入框时，切换输出目标
 useEventListener(document, "focusin", e => {
   const el = e.target;
+  function isMarkDownBody(elem) {
+    return elem.name === "comment[body]" || [...elem.classList].some(e => e.startsWith('MarkdownInput'))
+  }
   // 至少得是个输入框                        排除非 markdown 输入框
-  if (el instanceof HTMLTextAreaElement && el.name === "comment[body]") {
+  if (el instanceof HTMLTextAreaElement && isMarkDownBody(el)) {
     currentInput.value = el;
   }
   // 解决前进后退时浏览器还原 dom 却不还原 vue app 数据状态的问题：我把旧 dom 杀了不就好了？
@@ -56,6 +59,9 @@ const tabData = computed(() => emotList.value.reduce((pv, g) => Object.assign(pv
   </Teleport>
 </template>
 <style lang="less">
+span:has(>.miyoushe-emots) {
+  flex-wrap: wrap;
+}
 .miyoushe-emots {
   border: 3px #CCC dashed;
   border-radius: 2rem;
