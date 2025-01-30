@@ -16,6 +16,7 @@ useEventListener(document, "focusin", e => {
   // 至少得是个输入框                        排除非 markdown 输入框
   if (el instanceof HTMLTextAreaElement && isMarkDownBody(el)) {
     currentInput.value = el;
+    el.placeholder = '如果img被GitHub偷偷删掉，可以试试在后面随便输入点空格然后删除';
   }
   // 解决前进后退时浏览器还原 dom 却不还原 vue app 数据状态的问题：我把旧 dom 杀了不就好了？
   document.querySelectorAll(".miyoushe-emots").forEach(e => { if (!e.isSameNode(_this.value)) e.remove(); });
@@ -62,6 +63,7 @@ const tabData = computed(() => emotList.value.reduce((pv, g) => Object.assign(pv
 span:has(>.miyoushe-emots) {
   flex-wrap: wrap;
 }
+
 .miyoushe-emots {
   border: 3px #CCC dashed;
   border-radius: 2rem;
@@ -93,11 +95,11 @@ span:has(>.miyoushe-emots) {
         flex: 1 0 2.5rem;
         width: 2.5rem;
 
-
         &.selected {
           border: 2px dashed #57c0a9;
         }
       }
+
     }
 
     &:last-child>div {
