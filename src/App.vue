@@ -11,7 +11,7 @@ const _this = ref(null);
 useEventListener(document, "focusin", e => {
   const el = e.target;
   function isMarkDownBody(elem) {
-    return elem.name === "comment[body]" || [...elem.classList].some(e => e.startsWith('MarkdownInput'))
+    return elem.name === "comment[body]" || [...elem.classList].some(e => e.startsWith('MarkdownInput')) || [...elem.parentElement.classList].some(e => e.startsWith('MarkdownInput'));
   }
   // 至少得是个输入框                        排除非 markdown 输入框
   if (el instanceof HTMLTextAreaElement && isMarkDownBody(el)) {
