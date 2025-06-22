@@ -13,7 +13,7 @@ export default defineConfig((config) => {
           name: "GitHub讨论米游社表情包",
           match: [
             "https://github.com/*",
-            "https://github.com",
+            "https://github.com/",
           ],
           connect: [
             "bbs-api-static.miyoushe.com",
@@ -28,7 +28,7 @@ export default defineConfig((config) => {
         build: {
           metaFileName: true,
           externalGlobals: {
-            vue: cdn.zhimg('Vue', 'dist/vue.global.prod.js'),
+            vue: cdn.baomitu('Vue', 'vue.global.prod.js'),
           },
         }
       })
