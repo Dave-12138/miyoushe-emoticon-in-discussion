@@ -27,5 +27,5 @@
 ### 关于本项目
 用了 vite + vue ，使用 GM_xmlhttpRequest API 获取表情包列表和表情包图片，通过 GM_registerMenuCommand 、 GM_getValue 、 GM_setValue 缓存拿到的表情包列表并控制刷新时机， 使用  GM_addStyle 注入UI样式。
 
-Vue 的 cdn 用的是知乎 (unpkg.zhimg.com)。
+Vue 的 cdn 用的是360 (lib.baomitu.com)。
 

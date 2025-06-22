@@ -28,7 +28,7 @@ export default defineConfig((config) => {
         build: {
           metaFileName: true,
           externalGlobals: {
-            vue: cdn.zhimg('Vue', 'dist/vue.global.prod.js'),
+            vue: cdn.baomitu('Vue', 'vue.global.prod.js'),
           },
         }
       })
