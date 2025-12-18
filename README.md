@@ -29,3 +29,5 @@
 
 Vue 的 cdn 用的是360 (lib.baomitu.com)。
 
+
+[![Star History Chart](https://api.star-history.com/svg?repos=Dave-12138/miyoushe-emoticon-in-discussion&type=date&legend=top-left)](https://www.star-history.com/#Dave-12138/miyoushe-emoticon-in-discussion&type=date&legend=top-left)
