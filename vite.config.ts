@@ -8,7 +8,7 @@ export default defineConfig((config) => {
     plugins: [
       vue(),
       Monkey({
-        entry: "src/index.js",
+        entry: "src/index.ts",
         userscript: {
           name: "GitHub讨论米游社表情包",
           match: [
