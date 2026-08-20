@@ -1,0 +1,18 @@
+# 统一行尾：所有文本文件强制使用 LF
+* text=auto eol=lf
+
+# Windows 批处理文件必须保留 CRLF 才能被 cmd.exe 正常执行
+*.bat text eol=crlf
+*.cmd text eol=crlf
+
+# 二进制资源，避免被 text=auto 误判
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.ico binary
+*.woff binary
+*.woff2 binary
+*.ttf binary
+*.eot binary
