@@ -20,7 +20,8 @@ useEventListener(document, "focusin", e => {
   // 至少得是个输入框                        排除非 markdown 输入框
   if (el instanceof HTMLTextAreaElement && isMarkDownBody(el)) {
     currentInput.value = el;
-    el.placeholder += '\n如果img被GitHub偷偷删掉，可以试试在输入表情后再输入个空格';
+    const placeholderAppend = '\n如果img被GitHub偷偷删掉，可以试试在输入表情后再输入个空格';
+    el.placeholder = (el.placeholder || "").replace(placeholderAppend, "") + placeholderAppend;
   }
   // 解决前进后退时浏览器还原 dom 却不还原 vue app 数据状态的问题：我把旧 dom 杀了不就好了？
   document.querySelectorAll(".miyoushe-emots").forEach(e => { if (!e.isSameNode(_this.value)) e.remove(); });
